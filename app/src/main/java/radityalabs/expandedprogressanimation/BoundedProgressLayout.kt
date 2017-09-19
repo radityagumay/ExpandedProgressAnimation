@@ -1,6 +1,7 @@
 package radityalabs.expandedprogressanimation
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.util.AttributeSet
@@ -50,7 +51,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
                 .onStop {
                     mAddress?.let {
                         address.visibility = View.VISIBLE
-                        address.text = "Jakarta Pusat"
+                        address.text = mAddress
                         ViewAnimator.animate(address)
                                 .dp().translationY(50f, 0f)
                                 .alpha(0.1f, 1f)
@@ -102,9 +103,8 @@ class BoundedProgressLayout @JvmOverloads constructor(
     private fun initView() {
         val iconBackground = GradientDrawable()
         iconBackground.cornerRadius = 100f
-        iconBackground.setColor(resources.getColor(R.color.colorAccent))
+        iconBackground.setColor(Color.WHITE)
         container.background = iconBackground
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             container.elevation = 4f
         }

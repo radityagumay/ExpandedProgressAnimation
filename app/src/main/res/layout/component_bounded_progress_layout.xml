@@ -4,13 +4,15 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center">
 
-    <View
+    <ImageView
         android:id="@+id/circle"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="5dp"
         android:background="@drawable/circle_background_view"
-        android:gravity="start" />
+        android:gravity="start"
+        android:scaleType="center"
+        android:src="@drawable/ic_location_on" />
 
     <TextView
         android:id="@+id/address"
