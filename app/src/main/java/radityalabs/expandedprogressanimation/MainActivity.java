@@ -65,30 +65,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             })
                             .start();
-
-
-                    /*ViewAnimator.animate(container)
-                            .dp().width(60f, 250f)
-                            .interpolator(new DecelerateInterpolator())
-                            .duration(800)
-                            .duration(1200)
-                            .onStop(new AnimationListener.Stop() {
-                                @Override
-                                public void onStop() {
-                                    textview.setVisibility(View.VISIBLE);
-                                    textview.setText("Jakarta Pusat");
-                                    ViewAnimator.animate(textview)
-                                            .dp().translationY(50, 0)
-                                            .alpha(0.1f, 1)
-                                            .singleInterpolator(new OvershootInterpolator())
-                                            .duration(800)
-                                            .start();
-                                }
-                            })
-                            .start();
                     ViewAnimator
-                            .animate(container).scaleY(0, 1).decelerate().duration(500);*/
-
+                            .animate(container).scaleY(0, 1).decelerate().duration(500);
                 } else {
                     isExpanded = false;
                     ViewAnimator.animate(textview)
@@ -105,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
                                             .interpolator(new AccelerateInterpolator())
                                             .duration(1200)
                                             .start();
+                                    ViewAnimator
+                                            .animate(container).scaleY(1, 0).accelerate().duration(800);
+
                                 }
                             })
                             .onStop(new AnimationListener.Stop() {
