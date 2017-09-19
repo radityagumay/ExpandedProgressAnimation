@@ -2,9 +2,7 @@
     android:id="@+id/container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_marginTop="?attr/actionBarSize"
-    android:background="@android:color/holo_red_dark">
+    android:layout_gravity="center">
 
     <View
         android:id="@+id/circle"
@@ -15,7 +13,7 @@
         android:gravity="start" />
 
     <TextView
-        android:id="@+id/textview"
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
