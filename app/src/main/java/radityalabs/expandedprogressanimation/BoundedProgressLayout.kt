@@ -147,5 +147,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             container.elevation = 4f
         }
+
+        circle.setImageResource(R.drawable.ic_location_on)
     }
 }
