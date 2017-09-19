@@ -83,7 +83,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
                 .width(60f, 250f)
                 .interpolator(DecelerateInterpolator())
                 .duration(800)
-                .onStart { progressWheel.spin() }
+                .onStart { onProgess() }
                 .onStop {
                     mAddress?.let {
                         address.visibility = View.VISIBLE
@@ -115,7 +115,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
                             .width(250f, 60f)
                             .interpolator(AccelerateInterpolator())
                             .duration(1200)
-                            .onStop { progressWheel.stopSpinning() }
+                            .onStop { onCompleted() }
                             .start()
                     ViewAnimator
                             .animate(container).scaleY(1f, 0f).accelerate().duration(800)
@@ -151,10 +151,15 @@ class BoundedProgressLayout @JvmOverloads constructor(
     }
 
     override fun onProgess() {
+        if (!progressWheel.isSpinning) {
+            progressWheel.spin()
+        }
     }
 
     override fun onCompleted() {
-
+        if (progressWheel.isSpinning) {
+            progressWheel.stopSpinning()
+        }
     }
 
     override fun setBackgroundElevation(elevation: Int) {
@@ -171,6 +176,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
         address = findViewById(R.id.address)
         circle = findViewById(R.id.circle)
         progressWheel = findViewById(R.id.progressWheel)
+        progressWheel.stopSpinning()
 
         initView()
     }
