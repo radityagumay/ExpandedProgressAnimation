@@ -22,7 +22,7 @@
             android:scaleType="center"
             tools:src="@drawable/ic_location_on" />
 
-        <radityalabs.expandedprogressanimation.ProgressWheel
+        <radityalabs.expandedprogressanimation.CircleProgressView
             android:id="@+id/progressWheel"
             android:layout_width="50dp"
             android:layout_height="50dp"

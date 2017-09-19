@@ -55,7 +55,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
     private lateinit var container: RelativeLayout
     private lateinit var address: TextView
     private lateinit var circle: ImageView
-    private lateinit var progressWheel: ProgressWheel
+    private lateinit var progressWheel: CircleProgressView
 
     private var backgroundDrawable: GradientDrawable? = null
 
@@ -83,20 +83,25 @@ class BoundedProgressLayout @JvmOverloads constructor(
                 .width(60f, 250f)
                 .interpolator(DecelerateInterpolator())
                 .duration(800)
-                .onStart { onProgess() }
-                .onStop {
-                    mAddress?.let {
-                        address.visibility = View.VISIBLE
-                        address.text = mAddress
-                        ViewAnimator.animate(address)
-                                .dp().translationY(50f, 0f)
-                                .alpha(0.1f, 1f)
-                                .singleInterpolator(OvershootInterpolator())
-                                .duration(800)
-                                .start()
+                .onStart(object : AnimationListener.Start {
+                    override fun onStart() {
+                        onProgess()
                     }
-                }
-                .start()
+                })
+                .onStop(object : AnimationListener.Stop {
+                    override fun onStop() {
+                        mAddress?.let {
+                            address.visibility = View.VISIBLE
+                            address.text = mAddress
+                            ViewAnimator.animate(address)
+                                    .dp().translationY(50f, 0f)
+                                    .alpha(0.1f, 1f)
+                                    .singleInterpolator(OvershootInterpolator())
+                                    .duration(800)
+                                    .start()
+                        }
+                    }
+                }).start()
         ViewAnimator
                 .animate(container).scaleY(0f, 1f).decelerate().duration(500)
     }
@@ -109,18 +114,28 @@ class BoundedProgressLayout @JvmOverloads constructor(
                 .alpha(1f, 0.1f)
                 .singleInterpolator(OvershootInterpolator())
                 .duration(600)
-                .onStart {
-                    ViewAnimator.animate(container)
-                            .dp()
-                            .width(250f, 60f)
-                            .interpolator(AccelerateInterpolator())
-                            .duration(900)
-                            .onStop { onCompleted() }
-                            .start()
-                    ViewAnimator
-                            .animate(container).scaleY(1f, 0f).accelerate().duration(600)
-                }
-                .onStop { address.visibility = View.GONE }
+                .onStart(object : AnimationListener.Start {
+                    override fun onStart() {
+                        ViewAnimator.animate(container)
+                                .dp()
+                                .width(250f, 60f)
+                                .interpolator(AccelerateInterpolator())
+                                .duration(900)
+                                .onStop(object : AnimationListener.Stop {
+                                    override fun onStop() {
+                                        onCompleted()
+                                    }
+                                })
+                                .start()
+                        ViewAnimator
+                                .animate(container).scaleY(1f, 0f).accelerate().duration(600)
+                    }
+                })
+                .onStop(object : AnimationListener.Stop {
+                    override fun onStop() {
+                        address.visibility = View.GONE
+                    }
+                })
                 .start()
     }
 
@@ -176,8 +191,6 @@ class BoundedProgressLayout @JvmOverloads constructor(
         address = findViewById(R.id.address)
         circle = findViewById(R.id.circle)
         progressWheel = findViewById(R.id.progressWheel)
-        progressWheel.stopSpinning()
-
         initView()
     }
 

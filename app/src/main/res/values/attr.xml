@@ -5,7 +5,7 @@
         <attr name="bounded_height" format="dimension" />
     </declare-styleable>
 
-    <declare-styleable name="ProgressWheel">
+    <declare-styleable name="CircleProgressView">
         <attr name="matProg_progressIndeterminate" format="boolean" />
         <attr name="matProg_barColor" format="color" />
         <attr name="matProg_rimColor" format="color" />
