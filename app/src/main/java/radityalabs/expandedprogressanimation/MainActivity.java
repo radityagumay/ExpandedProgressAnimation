@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         container = (BoundedProgressLayout) findViewById(R.id.container);
+        container.setIcon(R.drawable.ic_location_on);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

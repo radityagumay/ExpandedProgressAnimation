@@ -10,6 +10,7 @@ import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
+import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 
@@ -21,6 +22,8 @@ interface Action {
     fun collapsed()
 
     fun setAddress(address: String)
+
+    fun setIcon(drawable: Int)
 }
 
 class BoundedProgressLayout @JvmOverloads constructor(
@@ -39,6 +42,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
 
     private lateinit var container: RelativeLayout
     private lateinit var address: TextView
+    private lateinit var circle: ImageView
 
     override fun extended() {
         isLoading = true
@@ -91,12 +95,18 @@ class BoundedProgressLayout @JvmOverloads constructor(
         this.mAddress = address
     }
 
+    override fun setIcon(drawable: Int) {
+        circle.setImageResource(drawable)
+    }
+
     override fun isLoading() = isLoading
 
     override fun onFinishInflate() {
         super.onFinishInflate()
         container = findViewById(R.id.container)
         address = findViewById(R.id.address)
+        circle = findViewById(R.id.circle)
+
         initView()
     }
 
