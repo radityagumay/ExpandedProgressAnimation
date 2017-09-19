@@ -29,8 +29,10 @@ public class MainActivity extends AppCompatActivity {
                 if (!container.isLoading()) {
                     container.setAddress("Jakarta Pusat");
                     container.extended();
+                    container.onProgess();
                 } else {
                     container.collapsed();
+                    container.onCompleted();
                 }
             }
         });

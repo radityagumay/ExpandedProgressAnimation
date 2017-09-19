@@ -1,9 +1,12 @@
 package radityalabs.expandedprogressanimation
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +25,10 @@ interface Action {
     fun collapsed()
 
     fun setAddress(address: String)
+
+    fun onProgess()
+
+    fun onCompleted()
 
     fun setIcon(drawable: Int)
 
@@ -50,9 +57,26 @@ class BoundedProgressLayout @JvmOverloads constructor(
     private lateinit var address: TextView
     private lateinit var circle: ImageView
 
+    override fun onSaveInstanceState(): Parcelable {
+        val savedState = super.onSaveInstanceState()
+        val ourState = BoundedProgressSavedState(savedState)
+        ourState.mAddress = this.mAddress
+        return ourState
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        if (state !is BoundedProgressSavedState) {
+            super.onRestoreInstanceState(state)
+            return
+        }
+
+        val ourState = state
+        super.onRestoreInstanceState(ourState.superState)
+        this.mAddress = ourState.mAddress
+    }
+
     override fun extended() {
         isLoading = true
-
         ViewAnimator.animate(container)
                 .dp()
                 .width(60f, 250f)
@@ -106,7 +130,11 @@ class BoundedProgressLayout @JvmOverloads constructor(
     }
 
     override fun setCornerRadius(radius: Float) {
-        backgroundDrawable?.cornerRadius = radius
+        container.background.apply {
+            with(backgroundDrawable!!) {
+                cornerRadius = radius
+            }
+        }
     }
 
     override fun setBackground(color: Int) {
@@ -114,10 +142,16 @@ class BoundedProgressLayout @JvmOverloads constructor(
             container.background.apply {
                 with(backgroundDrawable!!) {
                     setColor(color)
-                    cornerRadius = 100f
                 }
             }
         }
+    }
+
+    override fun onProgess() {
+    }
+
+    override fun onCompleted() {
+
     }
 
     override fun setBackgroundElevation(elevation: Int) {
@@ -149,5 +183,29 @@ class BoundedProgressLayout @JvmOverloads constructor(
         }
 
         circle.setImageResource(R.drawable.ic_location_on)
+    }
+
+    internal class BoundedProgressSavedState : View.BaseSavedState {
+
+        var mAddress: String? = null
+
+        constructor(savedState: Parcelable) : super(savedState)
+
+        private constructor(inParcel: Parcel) : super(inParcel) {
+            this.mAddress = inParcel.readString()
+        }
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            super.writeToParcel(parcel, flags)
+            parcel.writeString(mAddress)
+        }
+
+
+        companion object CREATOR : Parcelable.Creator<BoundedProgressSavedState> {
+            override fun createFromParcel(parcel: Parcel): BoundedProgressSavedState =
+                    BoundedProgressSavedState(parcel)
+
+            override fun newArray(size: Int): Array<BoundedProgressSavedState?> = arrayOfNulls(size)
+        }
     }
 }
