@@ -15,7 +15,6 @@ import android.provider.Settings
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import com.gojek.life.component.R
 
 /**
  * This code base from Nico Hormazábal then modified by radityagumay
