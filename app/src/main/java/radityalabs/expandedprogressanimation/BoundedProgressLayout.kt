@@ -108,17 +108,17 @@ class BoundedProgressLayout @JvmOverloads constructor(
                 .dp().translationY(0f, 50f)
                 .alpha(1f, 0.1f)
                 .singleInterpolator(OvershootInterpolator())
-                .duration(800)
+                .duration(600)
                 .onStart {
                     ViewAnimator.animate(container)
                             .dp()
                             .width(250f, 60f)
                             .interpolator(AccelerateInterpolator())
-                            .duration(1200)
+                            .duration(900)
                             .onStop { onCompleted() }
                             .start()
                     ViewAnimator
-                            .animate(container).scaleY(1f, 0f).accelerate().duration(800)
+                            .animate(container).scaleY(1f, 0f).accelerate().duration(600)
                 }
                 .onStop { address.visibility = View.GONE }
                 .start()
