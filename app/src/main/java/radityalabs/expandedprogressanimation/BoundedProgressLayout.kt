@@ -1,6 +1,5 @@
 package radityalabs.expandedprogressanimation
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -70,9 +69,8 @@ class BoundedProgressLayout @JvmOverloads constructor(
             return
         }
 
-        val ourState = state
-        super.onRestoreInstanceState(ourState.superState)
-        this.mAddress = ourState.mAddress
+        super.onRestoreInstanceState(state.superState)
+        this.mAddress = state.mAddress
     }
 
     override fun extended() {
