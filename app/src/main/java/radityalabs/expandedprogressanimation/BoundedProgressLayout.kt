@@ -24,6 +24,12 @@ interface Action {
     fun setAddress(address: String)
 
     fun setIcon(drawable: Int)
+
+    fun setBackground(color: Int)
+
+    fun setBackgroundElevation(elevation: Int)
+
+    fun setCornerRadius(radius: Float)
 }
 
 class BoundedProgressLayout @JvmOverloads constructor(
@@ -99,7 +105,30 @@ class BoundedProgressLayout @JvmOverloads constructor(
         circle.setImageResource(drawable)
     }
 
+    override fun setCornerRadius(radius: Float) {
+        backgroundDrawable?.cornerRadius = radius
+    }
+
+    override fun setBackground(color: Int) {
+        backgroundDrawable?.let {
+            container.background.apply {
+                with(backgroundDrawable!!) {
+                    setColor(color)
+                    cornerRadius = 100f
+                }
+            }
+        }
+    }
+
+    override fun setBackgroundElevation(elevation: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            container.elevation = 4f
+        }
+    }
+
     override fun isLoading() = isLoading
+
+    private var backgroundDrawable: GradientDrawable? = null
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -111,10 +140,10 @@ class BoundedProgressLayout @JvmOverloads constructor(
     }
 
     private fun initView() {
-        val iconBackground = GradientDrawable()
-        iconBackground.cornerRadius = 100f
-        iconBackground.setColor(Color.WHITE)
-        container.background = iconBackground
+        backgroundDrawable = GradientDrawable()
+        backgroundDrawable?.cornerRadius = 100f
+        backgroundDrawable?.setColor(Color.WHITE)
+        container.background = backgroundDrawable
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             container.elevation = 4f
         }
