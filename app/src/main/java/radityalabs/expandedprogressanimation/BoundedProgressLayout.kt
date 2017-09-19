@@ -55,6 +55,9 @@ class BoundedProgressLayout @JvmOverloads constructor(
     private lateinit var container: RelativeLayout
     private lateinit var address: TextView
     private lateinit var circle: ImageView
+    private lateinit var progressWheel: ProgressWheel
+
+    private var backgroundDrawable: GradientDrawable? = null
 
     override fun onSaveInstanceState(): Parcelable {
         val savedState = super.onSaveInstanceState()
@@ -80,6 +83,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
                 .width(60f, 250f)
                 .interpolator(DecelerateInterpolator())
                 .duration(800)
+                .onStart { progressWheel.spin() }
                 .onStop {
                     mAddress?.let {
                         address.visibility = View.VISIBLE
@@ -111,6 +115,7 @@ class BoundedProgressLayout @JvmOverloads constructor(
                             .width(250f, 60f)
                             .interpolator(AccelerateInterpolator())
                             .duration(1200)
+                            .onStop { progressWheel.stopSpinning() }
                             .start()
                     ViewAnimator
                             .animate(container).scaleY(1f, 0f).accelerate().duration(800)
@@ -160,13 +165,12 @@ class BoundedProgressLayout @JvmOverloads constructor(
 
     override fun isLoading() = isLoading
 
-    private var backgroundDrawable: GradientDrawable? = null
-
     override fun onFinishInflate() {
         super.onFinishInflate()
         container = findViewById(R.id.container)
         address = findViewById(R.id.address)
         circle = findViewById(R.id.circle)
+        progressWheel = findViewById(R.id.progressWheel)
 
         initView()
     }
